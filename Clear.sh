@@ -8,7 +8,6 @@ diretorios=(
     "/var/tmp"
     "/var/cache"
     "$HOME/.cache"
-    "/var/log"  # Pode ser perigoso!!! cuidado
     "/run"
     "/dev/shm"
     "$HOME/.local/share"
@@ -16,10 +15,18 @@ diretorios=(
 
 # Função para limpar diretórios
 limpar_diretorio() {
-    local dir="$1" # armazena o primeiro argumento passado para a função em uma variável local chamada dir.
-    if [ -d "$dir" ]; then # verifica se o diretório existe.
+    local dir="$1"
+    if [ -d "$dir" ]; then
         echo "Limpando $dir..."
-        rm -rf "$dir"/* # para remover todos os arquivos e subdiretórios dentro de dir
+        # Perguntar confirmação antes de remover
+        read -p "Você tem certeza que deseja limpar $dir? (s/n): " confirm
+        if [[ "$confirm" =~ ^[sS]$ ]]; then
+            find "$dir" -type f -exec rm -f {} \; # Remove apenas arquivos
+            find "$dir" -type d -empty -delete # Remove diretórios vazios
+            echo "Limpeza de $dir concluída."
+        else
+            echo "Limpeza de $dir cancelada."
+        fi
     else
         echo "Diretório $dir não encontrado."
     fi
