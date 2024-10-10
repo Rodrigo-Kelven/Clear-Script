@@ -11,7 +11,7 @@ Esse foi criado par facilitar a exclusao de arquivos temporarios em sistemas Lin
   git clone https://github.com/Rodrigo-Kelven/Clear-Script/
   cd Clear-Script
   chmod +x Clear.sh
-  ./Clear.sh
+  sudo ./Clear.sh
 ```
 
 ## Feedback
